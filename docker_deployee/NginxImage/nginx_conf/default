@@ -1,0 +1,34 @@
+server{
+    listen 80 default_server;
+    listen 443 default_server ssl;
+    
+    ssl_certificate_key /etc/letsencrypt/nginx/key.pem;
+    ssl_certificate /etc/letsencrypt/nginx/cert.pem; 
+    
+    server_name _;
+
+    return 444;
+}
+
+server {
+    listen 80;
+    
+    server_name khaos.tw;
+    
+    # redirect http to https
+    return 301 https://khaos.tw$request_uri;
+}
+
+server {        
+    listen 443 ssl;
+
+    ssl_certificate_key /etc/letsencrypt/nginx/key.pem;
+    ssl_certificate /etc/letsencrypt/nginx/cert.pem;        
+    
+    server_name khaos.tw;
+   
+    location / {
+            uwsgi_pass myFlask:8888;
+            include uwsgi_params;
+    }
+}

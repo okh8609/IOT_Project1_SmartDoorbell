@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>IOT智慧門鈴</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <h1>IOT智慧門鈴</h1>
+  <p>組員：歐鎧豪、陳秉嘉</p>
+  <img src="/show/guest_photo.jpg" width="600" height="450" id="guest_photo">
+</body>
+
+<script>
+  setInterval(function(){
+    var d = new Date()
+    $('#guest_photo').attr("src", '/show/guest_photo.jpg?' + d.getTime());
+  }, 3000) /* time in milliseconds (ie 2 seconds)*/
+</script>
+</html>

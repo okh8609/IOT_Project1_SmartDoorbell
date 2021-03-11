@@ -1,0 +1,55 @@
+# 安裝docker
+# ref: https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04
+sudo apt update && sudo apt -y upgrade
+sudo apt install -y docker.io
+sudo systemctl start docker
+sudo systemctl enable docker
+docker --version
+
+# Flask
+cd ~/iot_project1/docker_deployee/FlaskImage
+sudo docker image build -t okh8609/flask:test .
+
+# Nginx + SSL
+cd ~/iot_project1/docker_deployee/NginxImage
+sudo docker image build -t okh8609/nginx:test .
+
+# 防火牆記的開！
+# port forwarding 80 和 443 都要記得開
+sudo ufw allow in 80
+sudo ufw allow in 443
+
+# (重新)執行
+sudo docker stop myNginx
+sudo docker stop myFlask
+
+sudo docker run --rm -d -p 8888:8888 --name myFlask \
+    -v ~/iot_project1/docker_deployee/FlaskImage:/app okh8609/flask:test
+
+sudo docker run --rm -it -p 80:80 -p 443:443 --name myNginx \
+    -v ~/iot_project1/docker_deployee/NginxImage/letsencrypt:/etc/letsencrypt/nginx \
+    -v ~/iot_project1/docker_deployee/NginxImage/nginx_conf:/data/nginx_conf \
+    -v ~/iot_project1/docker_deployee/NginxImage/shell:/data/shell \
+    -v ~/iot_project1/docker_deployee/NginxImage/etc/nginx/nginx.conf:/etc/nginx/nginx.conf \
+    --link myFlask okh8609/nginx:test
+
+chmod 777 ./shell/run.sh && ./shell/run.sh
+chmod 777 ./shell/run_newSSL.sh && ./shell/run_newSSL.sh
+
+# 跳出：
+Ctrl+p, Ctrl+q
+
+# 查看LOG
+cat /var/log/nginx/access.log
+cat /var/log/nginx/error.log 
+
+# ===========================================================
+
+[找出 requirement.txt]
+
+sudo docker run --rm -it -p 8888:8888 -v ~/iot_project1/docker_deployee/FlaskImage:/app python:3.7-stretch /bin/bash
+
+執行看看，根據錯誤訊息，用 pip install 安裝要使用到的套件 
+記得加上 uwsgi==2.0.19
+
+pip3 freeze > requirements.txt   # 匯出
