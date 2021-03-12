@@ -2,18 +2,25 @@ from werkzeug.utils import secure_filename
 from flask import Flask, render_template, jsonify, request, make_response
 import time
 import os
-import base64
-import json
+from datetime import datetime
 
 app = Flask(__name__)
 
 @app.route('/test')
-def page_test():
+def test():
     return "test3 ~"
 
 @app.route('/')
-def page_index():
+def index():
     return render_template('index.html')
+
+@app.route('/has_guest_since/<int:lgct>', methods=['GET'])
+def has_guest_since(lgct):
+    mtime = int(os.path.getmtime('./upload/guest_photo.jpg')) #檔案上次修改的時間
+    if(lgct < mtime):
+        return jsonify(True)
+    else:
+        return jsonify(False)
 
 @app.route('/uploaded/guest', methods=['POST'], strict_slashes=False)
 def api_upload_guest():

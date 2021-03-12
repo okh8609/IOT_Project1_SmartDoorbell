@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <title>IOT智慧門鈴</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
-<body>
-  <h1>IOT智慧門鈴</h1>
-  <p>組員：歐鎧豪、陳秉嘉</p>
-  <img src="/show/guest_photo.jpg" width="600" height="450" id="guest_photo">
-</body>
-
-<script>
-  setInterval(function(){
-    var d = new Date()
-    $('#guest_photo').attr("src", '/show/guest_photo.jpg?' + d.getTime());
-  }, 3000) /* time in milliseconds (ie 2 seconds)*/
-</script>
+  <head>
+    <meta charset="UTF-8">
+    <title>IOT智慧門鈴</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1>IOT智慧門鈴</h1>
+    <p>組員：歐鎧豪、陳秉嘉</p>
+    <img src="/show/guest_photo.jpg" width="600" height="450" id="guest_photo">
+    <p id="test"></p>
+  </body>
+  <script>
+    function getServerTime(){
+        var xmlHttp;
+        try {
+            //FF, Opera, Safari, Chrome
+            xmlHttp = new XMLHttpRequest();
+        }
+        catch (err1) {
+            //IE
+            try {
+                xmlHttp = new ActiveXObject('Msxml2.XMLHTTP');
+            }
+            catch (err2) {
+                try {
+                    xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+                }
+                catch (eerr3) {
+                    //AJAX not supported, use CPU time.
+                    alert("AJAX not supported");
+                }
+            }
+        }
+        xmlHttp.open('HEAD', window.location.href.toString(), false);
+        xmlHttp.setRequestHeader("Content-Type", "text/html");
+        xmlHttp.send('');
+          var serverTime = new Date(xmlHttp.getResponseHeader("Date"));
+        return serverTime.getTime() / 1000;
+    }
+    
+    lastGuestComing = getServerTime();
+    
+    setInterval(function(){
+      $.getJSON('/has_guest_since/' + lastGuestComing.toString(), function(data) {
+        // JSON result in `data` variable
+        if(data===true){ //圖片已經有改動，就更新圖片吧
+          var d = new Date();
+          $('#guest_photo').attr("src", '/show/guest_photo.jpg?' + d.getTime());
+          lastGuestComing = getServerTime();
+        }
+      });
+    }, 3000) /* time in milliseconds (ie 3 seconds)*/
+  </script>
 </html>
