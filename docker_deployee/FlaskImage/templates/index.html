@@ -45,10 +45,13 @@
     setInterval(function(){
       $.getJSON('/has_guest_since/' + lastGuestComing.toString(), function(data) {
         // JSON result in `data` variable
-        if(data===true){ //圖片已經有改動，就更新圖片吧
+        if(data===true){ //圖片已經有改動，代表有新的客戶來
+          //更新圖片
           var d = new Date();
           $('#guest_photo').attr("src", '/show/guest_photo.jpg?' + d.getTime());
           lastGuestComing = getServerTime();
+          //
+          alert("有新的訪客！")
         }
       });
     }, 3000) /* time in milliseconds (ie 3 seconds)*/

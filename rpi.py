@@ -10,6 +10,7 @@ camera.resolution = (800, 600) # (3280, 2464)
 camera.capture("./img.jpg")
 # camera.stop_preview()
 
-url = 'http://khaos.tw:58888/uploaded/guest'
+url = 'https://khaos.tw/uploaded/guest'
 files = {'myFile': open('./img.jpg', 'rb')}
-requests.post(url, files=files)
+response = requests.request("POST", url, files=files)
+print(response.text)
