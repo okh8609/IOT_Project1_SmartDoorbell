@@ -68,7 +68,7 @@ def door_status():
     if(result=='yes'):
         return jsonify(True) # 門是關的
     else:
-        return jsonify(False)  # 門是開的
+        return jsonify(False) # 門是開的
 
 # 根據給定的時間 判斷是否有新的訪客過來
 @app.route('/has_guest_since/<int:lgct>', methods=['GET'])
@@ -79,7 +79,7 @@ def has_guest_since(lgct):
     else:
         return jsonify(False)
 
-# 上船使用者的新相片
+# 上傳使用者的新相片
 @app.route('/uploaded/guest', methods=['POST'], strict_slashes=False)
 def api_upload_guest():
     fff = request.files['myFile']
