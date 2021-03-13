@@ -49,7 +49,19 @@ cat /var/log/nginx/error.log
 
 sudo docker run --rm -it -p 8888:8888 -v ~/iot_project1/docker_deployee/FlaskImage:/app python:3.7-stretch /bin/bash
 
+cd app/
+python flask_.py
+
+# conda activate iot_py37
+
+pip install Werkzeug
+pip install flask
+pip install requests
+pip install opencv-python
+pip install line_bot_sdk
+
 執行看看，根據錯誤訊息，用 pip install 安裝要使用到的套件 
-記得加上 uwsgi==2.0.19
 
 pip3 freeze > requirements.txt   # 匯出
+
+記得加上 uwsgi==2.0.19
