@@ -47,7 +47,8 @@ def face_detect(img_path):
     c_d = dict(zip(candidate,dist))
     cd_sorted = sorted(c_d.items(),key = lambda d:d[1])
     rec_name = cd_sorted[0][0]
-
+    if cd_sorted[0][1]>0.7:
+        return False
     cv2.putText(img,rec_name,(x1,y1),cv2.FONT_HERSHEY_SIMPLEX,2,(255,255,255),2,cv2.LINE_AA)
     img = imutils.resize(img,width=600)
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
@@ -55,6 +56,6 @@ def face_detect(img_path):
     # cv2.imshow("Face Recognition",img)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
-
+    return True
 if __name__=='__main__':
     face_detect('./members/Test/test1.jpg')
