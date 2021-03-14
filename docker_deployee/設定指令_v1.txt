@@ -65,3 +65,4 @@ pip install line_bot_sdk
 pip3 freeze > requirements.txt   # 匯出
 
 記得加上 uwsgi==2.0.19
+
