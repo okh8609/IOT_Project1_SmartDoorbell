@@ -112,7 +112,6 @@ def api_upload_guest():
     }
     # LINE BOT 通知 > 文字提示+照片
     lineData = {
-        'to': USER_ID,
         'messages': [
             {
                 "type": "text",
@@ -123,7 +122,7 @@ def api_upload_guest():
                 "previewImageUrl": "https://khaos.tw/show/guest_photo_.jpg"
             }]
     }
-    response = requests.post('https://api.line.me/v2/bot/message/push',
+    response = requests.post('https://api.line.me/v2/bot/message/broadcast',
                              data=json.dumps(lineData), headers=lineHeader)
 
     return jsonify({"success": 0, "msg": "upload successful!", "line_bot": response.text})
