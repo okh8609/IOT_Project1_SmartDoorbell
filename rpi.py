@@ -19,3 +19,7 @@ while True:
         response = requests.request("POST", url, files=files)
         print(response.text)
         sleep(0.5)
+    
+    r = requests.get("https://khaos.tw/door_status")
+    print(r.content)
+    sleep(1)
