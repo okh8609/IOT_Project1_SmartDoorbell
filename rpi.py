@@ -20,6 +20,6 @@ while True:
         print(response.text)
         sleep(0.5)
     
-    r = requests.get("https://khaos.tw/door_status")
-    print(r.content)
-    sleep(1)
+    #r = requests.get("https://khaos.tw/door_status")
+    #print(bool(r.content))
+    #sleep(1)
