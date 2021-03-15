@@ -118,8 +118,8 @@ def api_upload_guest():
                 "text": "有新的訪客，請直接回應要開啟門鎖的秒數；若不願意開啟門鎖，可忽略或回復 0 。"},
             {
                 "type": "image",
-                "originalContentUrl": "https://khaos.tw/show/guest_photo.jpg",
-                "previewImageUrl": "https://khaos.tw/show/guest_photo_.jpg"
+                "originalContentUrl": "https://khaos.tw/show/guest_photo.jpg?" + str(int(time.time())),
+                "previewImageUrl": "https://khaos.tw/show/guest_photo_.jpg?" + str(int(time.time()))
             }]
     }
     response = requests.post('https://api.line.me/v2/bot/message/broadcast',

@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
 </head>
 
 <body>
@@ -16,8 +16,8 @@
 <div class="box9">
   <h1>IOT智慧門鈴</h1>
   <p>組員：歐鎧豪、陳秉嘉</p>
-  <img src="../upload/guest_photo.jpg" width="600" height="600" id="guest_photo">
-  <div id="menu">
+  <img src="/show/guest_photo.jpg" width="600" id="guest_photo">
+  <div id="menu" hidden="true">
     <button id="refuse_btn" type="button" class="btn btn-danger">保持上鎖</button>
     <button id="accept_btn" type="button" class="btn btn-success">同意放行</button>
   </div>
