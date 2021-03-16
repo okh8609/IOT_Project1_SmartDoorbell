@@ -94,6 +94,16 @@ def has_guest_since(lgct):
 def api_upload_guest():
     fff = request.files['myFile']
     fff.save("./upload/guest_photo.jpg")
+
+    # TODO:
+    # 起一個 thread 去做人臉辨識
+    # 先刪除 result.txt (如果它存在的話)
+    # 把輸入圖片放到該放的位置
+    # 呼叫 Restful API 去啟動docker
+    # 每一秒檢查一次 result.txt 的結果 (最多60秒)
+    # TODO:
+    # 開一隻API把圖片傳送到 members 的資料夾
+
     # 縮小圖片
     image = cv2.imread("./upload/guest_photo.jpg")
     h, w, channels = image.shape
@@ -104,7 +114,6 @@ def api_upload_guest():
         image = cv2.resize(image, (int(300*w/h), 300), interpolation=cv2.INTER_AREA)
 
     cv2.imwrite('./upload/guest_photo_.jpg', image)
-
     # LINE BOT 通知
     lineHeader = {
         'Content-Type': 'application/json; charset=UTF-8',
