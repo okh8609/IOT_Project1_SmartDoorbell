@@ -24,7 +24,9 @@ sudo docker stop myNginx
 sudo docker stop myFlask
 
 sudo docker run --rm -d -p 8888:8888 --name myFlask \
-    -v ~/iot_project1/docker_deployee/FlaskImage:/app okh8609/flask:test
+    -v ~/iot_project1/docker_deployee/FlaskImage:/app \
+    -v ~/iot_face:/iot_face \
+    okh8609/flask:test
 
 sudo docker run --rm -it -p 80:80 -p 443:443 --name myNginx \
     -v ~/iot_project1/docker_deployee/NginxImage/letsencrypt:/etc/letsencrypt/nginx \
@@ -47,18 +49,17 @@ cat /var/log/nginx/error.log
 
 [找出 requirement.txt]
 
-sudo docker run --rm -it -p 8888:8888 -v ~/iot_project1/docker_deployee/FlaskImage:/app python:3.7-stretch /bin/bash
+sudo docker run --rm -it -p 8000:8888 -v ~/iot_project1/docker_deployee/FlaskImage:/app python:3.7-stretch /bin/bash
 
 cd app/
-python flask_.py
-
-# conda activate iot_py37
+python app.py
 
 pip install Werkzeug
 pip install flask
 pip install requests
 pip install opencv-python
 pip install line_bot_sdk
+pip install docker
 
 執行看看，根據錯誤訊息，用 pip install 安裝要使用到的套件 
 

@@ -1,6 +1,7 @@
 certifi==2020.12.5
 chardet==4.0.0
 click==7.1.2
+docker==4.4.4
 Flask==1.1.2
 future==0.18.2
 idna==2.10
@@ -11,6 +12,8 @@ MarkupSafe==1.1.1
 numpy==1.20.1
 opencv-python==4.5.1.48
 requests==2.25.1
-urllib3==1.26.3
+six==1.15.0
+urllib3==1.26.4
+websocket-client==0.58.0
 Werkzeug==1.0.1
 uwsgi==2.0.19

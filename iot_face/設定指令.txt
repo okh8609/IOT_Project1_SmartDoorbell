@@ -1,0 +1,48 @@
+[人臉辨識]
+sudo docker run --rm -it \
+    -v ~/iot_face:/iot_face \
+    --memory 6144MB \
+    --cpu-period=100000 --cpu-quota=300000 \
+    python:3.7-stretch /bin/bash
+
+pip install cmake
+pip install boost
+pip install dlib
+
+pip install scikit-image
+
+pip install imutils
+
+pip install opencv-python
+
+pip install flask
+
+apt update
+apt install libgl1-mesa-glx
+
+sudo docker commit XXXXX okh8609/face:test
+
+sudo docker run --rm -it \
+    --name iotFace \
+    -p 50000:50000 \
+    -v ~/iot_face:/iot_face \
+    --memory 6144MB \
+    --cpu-period=100000 --cpu-quota=300000 \
+    okh8609/face:test  /bin/bash
+
+cd iot_face
+python app.py
+
+---
+
+改成 每次有資料來 就開一個docker
+
+會員請放到 ~/iot_face/members
+輸入的圖片 請放為 ~/iot_face/test.jpg
+
+sudo docker run --rm \
+    --memory 6144MB \
+    --name iotFace \
+    --cpu-period=100000 --cpu-quota=300000 \
+    -v ~/iot_face:/iot_face \
+    okh8609/face:test  /bin/bash /iot_face/run.sh

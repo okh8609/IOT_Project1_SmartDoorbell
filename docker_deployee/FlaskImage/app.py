@@ -10,6 +10,10 @@ import cv2
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+import docker
+from shutil import copyfile
+
+
 
 
 CHANNEL_ACCESS_TOKEN = 'QeKanfGknXD8gNkDfj7uwbhvzSEeyFMtSEvXuJqQSrAf19m6QF/bThdIoyBXQ2DoSKzp5wxcl5+KrmoOjVCpAVO4MNw5DGUWF+v5ftpcHEXGzkkSYqA5hmguvYmIgTWG126nF9VL1vwA3hp4JM3PGgdB04t89/1O/w1cDnyilFU='
@@ -95,12 +99,24 @@ def api_upload_guest():
     fff = request.files['myFile']
     fff.save("./upload/guest_photo.jpg")
 
-    # TODO:
-    # 起一個 thread 去做人臉辨識
-    # 先刪除 result.txt (如果它存在的話)
     # 把輸入圖片放到該放的位置
-    # 呼叫 Restful API 去啟動docker
-    # 每一秒檢查一次 result.txt 的結果 (最多60秒)
+    copyfile("./upload/guest_photo.jpg", '/iot_face/test.jpg')
+
+    # 呼叫 SDK 去啟動 container
+    client = docker.DockerClient(base_url='tcp://192.168.50.122:2375').api
+    container = client.create_container(
+        image='okh8609/face:test',
+        command='/bin/bash /iot_face/run.sh',
+        volumes=['/iot_face'],
+        host_config=client.create_host_config(
+            binds=['/home/kh/iot_face:/iot_face'],
+            cpu_period=100000, cpu_quota=300000,
+            mem_limit=6442450944,
+            auto_remove=True
+        )
+    )
+    client.start(container=container.get('Id'))
+
     # TODO:
     # 開一隻API把圖片傳送到 members 的資料夾
 
