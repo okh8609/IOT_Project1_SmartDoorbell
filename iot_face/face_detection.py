@@ -48,7 +48,7 @@ def face_detect(img_path):
     c_d = dict(zip(candidate,dist))
     cd_sorted = sorted(c_d.items(),key = lambda d:d[1])
     rec_name = cd_sorted[0][0]
-    if cd_sorted[0][1]>0.7:
+    if cd_sorted[0][1]>0.5:
         return False
     cv2.putText(img,rec_name,(x1,y1),cv2.FONT_HERSHEY_SIMPLEX,2,(255,255,255),2,cv2.LINE_AA)
     img = imutils.resize(img,width=600)
